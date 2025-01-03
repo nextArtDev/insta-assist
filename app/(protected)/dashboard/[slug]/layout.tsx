@@ -11,6 +11,7 @@
 //   PrefetchUserProfile,
 // } from '@/react-query/prefetch'
 
+import InfoBar from '@/components/global/info-bar'
 import Sidebar from '@/components/global/sidebar'
 
 type Props = {
@@ -39,7 +40,7 @@ const Layout = async ({ children, params }: Props) => {
       overflow-auto
       "
       >
-        {/* <InfoBar slug={params.slug} /> */}
+        <InfoBar slug={params.slug} />
         {children}
       </div>
     </div>
