@@ -4,6 +4,7 @@ import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { Toaster } from 'sonner'
+import { cn } from '@/lib/utils'
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body suppressHydrationWarning className={jakarta.className}>
+        <body suppressHydrationWarning className={cn(jakarta.className, '')}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
