@@ -1,43 +1,44 @@
 'use client'
 
-import { cn } from '@/lib/utils'
+import { cn, getMonth } from '@/lib/utils'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import { Button } from '@/components/ui/button'
-// import GradientButton from '../gradient-button'
-// import { useQueryAutomations } from '@/hooks/user-queries'
-// import CreateAutomation from '../create-automation'
-// import { useMutationDataState } from '@/hooks/use-mutation-data'
+import { usePaths } from '@/hooks/use-nav'
+import { useQueryAutomations } from '@/hooks/use-queries'
+import CreateAutomation from './create-automation'
+import GradientButton from './gradient-button'
+import { useMutationDataState } from '@/hooks/use-mutation-data'
 
 type Props = {}
 
 const AutomationList = (props: Props) => {
-  //   const { data } = useQueryAutomations()
+  const { data } = useQueryAutomations()
 
-  //   const { latestVariable } = useMutationDataState(['create-automation'])
-  //   console.log(latestVariable)
-  //   const { pathname } = usePaths()
+  const { latestVariable } = useMutationDataState(['create-automation'])
+  // console.log(data?.data)
+  const { pathname } = usePaths()
 
-  //   const optimisticUiData = useMemo(() => {
-  //     if (latestVariable && latestVariable?.variables && data) {
-  //       const test = [latestVariable.variables, ...data.data]
-  //       return { data: test }
-  //     }
-  //     return data || { data: [] }
-  //   }, [latestVariable, data])
+  const optimisticUiData = useMemo(() => {
+    if (latestVariable && latestVariable?.variables && data) {
+      const test = [latestVariable.variables, ...data.data]
+      return { data: test }
+    }
+    return data || { data: [] }
+  }, [latestVariable, data])
 
-  //   if (data?.status !== 200 || data.data.length <= 0) {
-  //     return (
-  //       <div className="h-[70vh] flex justify-center items-center flex-col gap-y-3">
-  //         <h3 className="text-lg text-gray-400">No Automations </h3>
-  //         <CreateAutomation />
-  //       </div>
-  //     )
-  //   }
+  if (data?.status !== 200 || data.data.length <= 0) {
+    return (
+      <div className="h-[70vh] flex justify-center items-center flex-col gap-y-3">
+        <h3 className="text-lg text-gray-400">No Automations </h3>
+        <CreateAutomation />
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-y-3">
-      {/* {optimisticUiData.data!.map((automation) => (
+      {optimisticUiData.data!.map((automation) => (
         <Link
           href={`${pathname}/${automation.id}`}
           key={automation.id}
@@ -81,11 +82,11 @@ const AutomationList = (props: Props) => {
           </div>
           <div className="flex flex-col justify-between">
             <p className="capitalize text-sm font-light text-[#9B9CA0]">
-              {getMonth(automation.createdAt.getUTCMonth() + 1)}{' '}
-              {automation.createdAt.getUTCDate() === 1
-                ? `${automation.createdAt.getUTCDate()}st`
-                : `${automation.createdAt.getUTCDate()}th`}{' '}
-              {automation.createdAt.getUTCFullYear()}
+              {getMonth(new Date(automation.createdAt).getUTCMonth() + 1)}{' '}
+              {new Date(automation.createdAt).getUTCDate() === 1
+                ? `${new Date(automation.createdAt).getUTCDate()}st`
+                : `${new Date(automation.createdAt).getUTCDate()}th`}{' '}
+              {new Date(automation.createdAt).getUTCFullYear()}
             </p>
 
             {automation.listener?.listener === 'SMARTAI' ? (
@@ -102,7 +103,7 @@ const AutomationList = (props: Props) => {
             )}
           </div>
         </Link>
-      ))} */}
+      ))}
     </div>
   )
 }
